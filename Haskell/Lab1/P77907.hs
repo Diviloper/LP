@@ -31,3 +31,14 @@ slowFib n
   |n==1 = 1
   |otherwise = slowFib (n-1) + slowFib (n-2)
 
+quickFib :: Int -> Int
+quickFib n = snd (auxFib n)
+    where
+      auxFib :: Int -> (Int, Int)
+      auxFib 1 = (0, 1)
+      auxFib n = (s, f + s)
+        where
+          f = fst fib
+          s = snd fib
+          fib = auxFib (n-1)
+
