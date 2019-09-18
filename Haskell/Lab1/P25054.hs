@@ -41,6 +41,7 @@ oddsNevens (x:xs)
         p = oddsNevens xs
 
 isPrime :: Int -> Bool
+isPrime 1 = False
 isPrime 2 = True
 isPrime n
     | even n = False

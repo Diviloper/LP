@@ -13,9 +13,10 @@ power x p
     p2 = div p 2
 
 isPrime :: Int -> Bool
+isPrime 1 = False
+isPrime 2 = True
 isPrime n
   | even n = False
-  | n == 3 = False
   | otherwise = isPrimeAux 3
   where
     isPrimeAux :: Int -> Bool
