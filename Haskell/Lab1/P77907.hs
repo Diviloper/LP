@@ -32,13 +32,16 @@ slowFib n
   |otherwise = slowFib (n-1) + slowFib (n-2)
 
 quickFib :: Int -> Int
-quickFib n = snd (auxFib n)
+quickFib n = fst (auxFib n)
     where
       auxFib :: Int -> (Int, Int)
-      auxFib 1 = (0, 1)
-      auxFib n = (s, f + s)
+      auxFib 0 = (0, 1)
+      auxFib n 
+        | even n = (f, f1)
+        | otherwise = (f1, f + f1)
         where
-          f = fst fib
-          s = snd fib
-          fib = auxFib (n-1)
+          (a, b) = auxFib (div n 2)
+          f = a * (b * 2 - a)
+          f1 = a * a + b * b
+    
 
