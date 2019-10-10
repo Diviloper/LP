@@ -10,7 +10,21 @@ insert (N a l r) n
 create :: Ord a => [a] -> BST a
 create x = foldl insert E x
 
--- remove :: Ord a => BST a -> a -> BST a
+remove :: Ord a => BST a -> a -> BST a
+remove E _ = E
+remove (N a l r) x
+    | x == a = removeRoot (N a l r)
+    | x < a = N a (remove l x) r
+    |otherwise = N a l (remove r x)
+
+removeRoot :: Ord a => BST a -> BST a
+removeRoot (N a E E) = E
+removeRoot (N a x E) = x
+removeRoot (N a E x) = x
+removeRoot (N a l r) = N newa l newr
+    where 
+        newa = getmin r
+        newr = remove r newa
 
 contains :: Ord a => BST a -> a -> Bool
 contains E a = False
@@ -35,4 +49,4 @@ elements :: BST a -> [a]
 elements E = []
 elements (N a l r) = (elements l) ++ [a] ++ (elements r)
 
-t = create [3,4,1,2]
+-- t = create [3,4,1,2]
