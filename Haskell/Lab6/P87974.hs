@@ -1,5 +1,12 @@
 main :: IO()
 main = do
     name <- getLine
-    let fem = last name == 'a' || last name == 'A' 
-    if fem then putStrLn "Hola maca!" else putStrLn "Hola maco!"
+    putStrLn $ hello name
+
+hello :: String -> String
+hello name
+    | esFemeni name = "Hola maca!"
+    | otherwise = "Hola maco!"
+    where
+        esFemeni :: String -> Bool
+        esFemeni name = last name == 'a' || last name == 'A'
