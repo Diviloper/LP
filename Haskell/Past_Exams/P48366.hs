@@ -37,13 +37,27 @@ fsmap v fs = foldl (flip ($)) v fs
 -- conquer :: (a -> (a, a) -> (b, b) -> b) per, donat un problema no trivial, els seus subproblemes i les seves respectives subsolucions, obtenir la solució al problema original.
 -- x :: a denota el problema a solucionar.
 
--- divideNconquer :: (a -> Maybe b) -> (a -> (a, a)) -> (a -> (a, a) -> (b, b) -> b) -> a -> b
--- divideNconquer base divide conquer x = do
---     result <- base x
+divideNconquer ::Show a => (a -> Maybe b) -> (a -> (a, a)) -> (a -> (a, a) -> (b, b) -> b) -> a -> b
+divideNconquer base divide conquer x 
+    | isNothing b = conquer x (l,r) (ls,rs)
+    | otherwise = extract b
+        where
+            b = base x
+            
+            isNothing :: Maybe c -> Bool
+            isNothing Nothing = True
+            isNothing _ = False
+
+            extract :: Maybe c -> c
+            extract (Just z) = z
+
+            (l,r) = divide x
+            ls = divideNconquer base divide conquer l
+            rs = divideNconquer base divide conquer r
 
 
--- quickSort :: [Int] -> [Int]
--- quickSort x = divideNconquer baseQS divideQS conquerQS x
+quickSort :: [Int] -> [Int]
+quickSort x = divideNconquer baseQS divideQS conquerQS x
 
 baseQS :: [Int] -> Maybe [Int]
 baseQS [] = Just []
@@ -52,13 +66,13 @@ baseQS [x,y] = Just [(min x y), (max x y)]
 baseQS _ = Nothing
 
 divideQS :: [Int] -> ([Int], [Int])
-divideQS x = (smaller, bigger)
+divideQS (x:xs) = (smaller, bigger)
     where
-        smaller = [y | y <- x, y <= head x]
-        bigger = [y | y <- x, y > head x]
+        smaller = [y | y <- xs, y <= x]
+        bigger = [y | y <- xs, y > x]
 
 conquerQS :: [Int] -> ([Int], [Int]) -> ([Int], [Int]) -> [Int]
-conquerQS _ _ (smaller, bigger) = smaller ++ bigger 
+conquerQS (x:_) _ (smaller, bigger) = smaller ++ [x] ++ bigger 
 
 
 -- Problema 5: Racionals
