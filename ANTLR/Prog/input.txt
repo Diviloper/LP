@@ -1,0 +1,6 @@
+c := 1
+b := c + 5
+if c = 0 then
+    write c + 3
+    write b
+endif

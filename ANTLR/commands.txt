@@ -1,0 +1,4 @@
+antlr4 = java org.antlr.v4.Tool
+grun = java org.antlr.v4.gui.TestRig
+
+java org.antlr.v4.Tool -Dlanguage=Python3 -no-listener -visitor [Nom].g
